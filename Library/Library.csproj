@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Resources\Resource2.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\imgs\ad.png" />
+    <None Remove="Resources\imgs\add.png" />
+    <None Remove="Resources\imgs\asc.png" />
+    <None Remove="Resources\imgs\block.png" />
+    <None Remove="Resources\imgs\book.png" />
+    <None Remove="Resources\imgs\clear.png" />
+    <None Remove="Resources\imgs\delblue.png" />
+    <None Remove="Resources\imgs\delgreen.png" />
+    <None Remove="Resources\imgs\desc.png" />
+    <None Remove="Resources\imgs\edit.png" />
+    <None Remove="Resources\imgs\list.png" />
+    <None Remove="Resources\imgs\save.png" />
+    <None Remove="Resources\imgs\search.png" />
+    <None Remove="Resources\imgs\select.png" />
+    <None Remove="Resources\imgs\sort.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\imgs\ad.png" />
+    <Resource Include="Resources\imgs\asc.png" />
+    <Resource Include="Resources\imgs\block.png" />
+    <Resource Include="Resources\imgs\book.png" />
+    <Resource Include="Resources\imgs\clear.png" />
+    <Resource Include="Resources\imgs\delblue.png" />
+    <Resource Include="Resources\imgs\delgreen.png" />
+    <Resource Include="Resources\imgs\desc.png" />
+    <Resource Include="Resources\imgs\edit.png" />
+    <Resource Include="Resources\imgs\list.png" />
+    <Resource Include="Resources\imgs\save.png" />
+    <Resource Include="Resources\imgs\search.png" />
+    <Resource Include="Resources\imgs\select.png" />
+    <Resource Include="Resources\imgs\sort.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

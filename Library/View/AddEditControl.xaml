@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="Library.View.AddEditControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library.View"
+             xmlns:res="clr-namespace:Library.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="#A7B2B9" Opacity="0.6"></SolidColorBrush>
+        </Grid.Background>
+        <Border x:Name="bd" Padding="10" Width="400" Height="350" BorderThickness="2" 
+                BorderBrush="{StaticResource Deep.Dark.Green}" 
+                CornerRadius="10"
+                Background="{StaticResource Light.Cold.Green}">
+            <Grid x:Name="editGrid">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="addViewLabel" 
+                       Grid.ColumnSpan="2"
+                       FontSize="20"
+                       Style="{StaticResource BrounDark}"
+                       Content="{x:Static res:Resource.AddLabel}"
+                       IsEnabled="{Binding EditedBook.Id, Converter={StaticResource reverseCVN}}">
+                </Label>
+                <Label x:Name="editViewLabel" 
+                       Grid.ColumnSpan="2"
+                       Style="{StaticResource BrounDark}"
+                       FontSize="20"
+                       IsEnabled="{Binding ElementName=addViewLabel, Path=IsEnabled, Converter={StaticResource reverseCVN}}"
+                       Content="{x:Static res:Resource.EditLabel}"
+                       ></Label>
+                <Label Grid.Row="1"
+                       Style="{StaticResource BrounDark}"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Bottom"
+                       Content="{x:Static res:Resource.NameLabel}" ></Label>
+                <TextBox Grid.Row="2"
+                         Style="{StaticResource BrounTextBox}"
+                         Grid.ColumnSpan="2"
+                         Text="{Binding EditedBook.Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label Grid.Row="3"
+                       Style="{StaticResource BrounDark}"
+                       HorizontalAlignment="Left"
+                        VerticalContentAlignment="Bottom" 
+                       Content="{x:Static res:Resource.AuthorLabel}" ></Label>
+                <TextBox Grid.Row="4"
+                         Style="{StaticResource BrounTextBox}"
+                         Text="{Binding EditedBook.Author, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource alfasCVN}}"
+                 Grid.ColumnSpan="2"></TextBox>
+                <Label Grid.Row="5"
+                       Style="{StaticResource BrounDark}"
+                       HorizontalAlignment="Left"
+                        VerticalContentAlignment="Bottom" 
+                       Content="{x:Static res:Resource.YearLabel}" ></Label>
+                <Label Grid.Row="5" Grid.Column="1"
+                       Style="{StaticResource BrounDark}"
+                       HorizontalAlignment="Left"
+                        VerticalContentAlignment="Bottom" 
+                       Content="{x:Static res:Resource.ThemeLabel}" ></Label>
+                <TextBox Grid.Row="6" Margin="2,0" 
+                         Style="{StaticResource BrounTextBox}"
+                         Text="{Binding EditedBook.YearOfIssue, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource stringIntCnv}}"
+                         ></TextBox>
+                <ComboBox Grid.Row="6" 
+                          Margin="2,0" 
+                          Grid.Column="1"
+                          Style="{StaticResource BrounCombo}"
+                          ItemsSource="{Binding BookThemes,UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding EditedBook.Theme, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource enumStringCnv}}"
+                          ></ComboBox>
+                <Grid
+                    Margin="0,5,0,0"
+                    x:Name="editViewButtons"
+                    Grid.Row="7"
+                    Visibility="{Binding ElementName=editViewLabel, Path=Visibility}"
+                    Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="{x:Static res:Resource.AcceptButton}" 
+                            ToolTip="{x:Static res:Resource.AcceptButtonTool}"
+                            Style="{StaticResource BlueButton}"
+                            Command="{Binding SaveAndExitCommand,UpdateSourceTrigger=PropertyChanged}"
+                            Margin="2,0">
+                    </Button>
+                    <Button Grid.Column="1"
+                            Margin="2,0"
+                            Style="{StaticResource BlueButton}"
+                            Content="{x:Static res:Resource.CancelButton}"
+                            ToolTip="{x:Static res:Resource.CancelButtonTool}"
+                            Command="{Binding CancelCommand,UpdateSourceTrigger=PropertyChanged}"
+                            ></Button>
+                </Grid>
+                <Grid
+                    Visibility="{Binding ElementName=addViewLabel, Path=Visibility}" 
+                    Margin="0,5,0,0"
+                    x:Name="addViewButtons"
+                    Grid.Row="7" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button 
+                        Margin="2,0" 
+                        Style="{StaticResource BlueButton}"
+                        Content="{x:Static res:Resource.AddButton}"
+                        ToolTip="{x:Static res:Resource.AddButtonTool}"
+                        Command="{Binding AddCommand, UpdateSourceTrigger=PropertyChanged}">
+                    </Button>
+                    <Button Grid.Column="1"
+                            Margin="2,0" 
+                            Style="{StaticResource BlueButton}"
+                           Content="{x:Static res:Resource.AddExitButton}" 
+                           ToolTip="{x:Static res:Resource.AddExitButtonTool}"
+                            Command="{Binding SaveAndExitCommand, UpdateSourceTrigger=PropertyChanged}"
+                            ></Button>
+                    <Button Grid.Column="2"
+                            Margin="2,0" 
+                            Style="{StaticResource BlueButton}"
+                           Content="{x:Static res:Resource.CancelButton}"
+                            ToolTip="{x:Static res:Resource.CancelButtonTool}"
+                            Command="{Binding CancelCommand, UpdateSourceTrigger=PropertyChanged}"
+                            ></Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

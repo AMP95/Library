@@ -1,0 +1,185 @@
+﻿<UserControl x:Class="Library.View.MainControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:Library.View"
+             xmlns:M="clr-namespace:Library.Model"
+             xmlns:res="clr-namespace:Library.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <Grid x:Name="bar" DockPanel.Dock="Top" Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="searchBox"
+                     Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource BrounTextBox}" 
+                     Grid.ColumnSpan="2"></TextBox>
+            <Button Grid.Column="1"
+                    Style="{StaticResource BrounButton}"
+                    ToolTip="{x:Static res:Resource.SearchButtonTool}" 
+                    CommandParameter="{Binding ElementName=searchBox, Path=Text}"
+                    Command="{Binding SearchCommand, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Resources/imgs/search.png"></Image>
+            </Button>
+            <ToggleButton x:Name="sortBtn" Grid.Column="2"
+                          Style="{StaticResource BrounToggle}"
+                          ToolTip="{x:Static res:Resource.SortingButtonTool}">
+                <Image Source="/Resources/imgs/sort.png"></Image>
+            </ToggleButton>
+            <Popup Grid.Column="1"
+                   Width="200" Height="120" 
+                   PopupAnimation="Scroll"
+                   PlacementTarget="{Binding ElementName=sortBtn}"
+                   Placement="Bottom"
+                   IsOpen="{Binding ElementName=sortBtn, Path=IsChecked}" 
+                   Grid.ColumnSpan="3">
+                <Border Background="{StaticResource Warm.Beige}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="{x:Static res:Resource.SortingButtonTool}"
+                               Style="{StaticResource BrounDark}"></Label>
+                        <Image Grid.Column="1" 
+                               Source="/Resources/imgs/asc.png"></Image>
+                        <Image Grid.Column="2" 
+                               Source="/Resources/imgs/desc.png"></Image> 
+                        <Label Grid.Row="1"
+                               Style="{StaticResource BrounDark}"
+                            Content="{x:Static res:Resource.NameLabel}" />
+                        <RadioButton Grid.Column="1" Grid.Row="1" 
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"
+                                     CommandParameter="nameA"
+                                     Command="{Binding SortCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                        <RadioButton Grid.Column="2" Grid.Row="1" 
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"
+                                     CommandParameter="nameD"
+                                     Command="{Binding SortCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Grid.Row="2"
+                               Style="{StaticResource BrounDark}"
+                               Content="{x:Static res:Resource.AuthorLabel}" />
+                        <RadioButton Grid.Column="1" Grid.Row="2" CommandParameter="authA"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"
+                                     Command="{Binding SortCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                        <RadioButton Grid.Column="2" Grid.Row="2" CommandParameter="authD"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"
+                                     Command="{Binding SortCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Grid.Row="3"
+                               Style="{StaticResource BrounDark}"
+                               Content="{x:Static res:Resource.YearLabel}" />
+                        <RadioButton Grid.Column="1" Grid.Row="3" CommandParameter="yearA"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"
+                                     Command="{Binding SortCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                        <RadioButton Grid.Column="2" Grid.Row="3" CommandParameter="yearD"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"
+                                     Command="{Binding SortCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Border>
+            </Popup>
+            <Button Grid.Column="3"
+                    Style="{StaticResource BrounButton}"
+                    ToolTip="{x:Static res:Resource.ClearSearchButtonTool}"
+                    Command="{Binding ClearSearchCommand, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Resources/imgs/clear.png"></Image>
+            </Button>
+            <Button Grid.Column="4"
+                    Style="{StaticResource GreenButton}"
+                    ToolTip="{x:Static res:Resource.AddFormOpenTool}" 
+                    Command="{Binding AddItemsCommand,UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Resources/imgs/ad.png"></Image>
+            </Button>
+            <ToggleButton x:Name="check"  Grid.Column="5"
+                          Style="{StaticResource GreenToggle}"
+                          IsEnabled="{Binding ElementName=saveBtn, Path=IsEnabled, Converter={StaticResource reverseCVN}}"
+                          ToolTip="{x:Static res:Resource.SelectSomeButtonTool}"
+                          Command="{Binding MultiselectButtonCommand,UpdateSourceTrigger=PropertyChanged}">
+                        <Image Source="/Resources/imgs/select.png"></Image>
+            </ToggleButton>
+            <Button Grid.Column="6" 
+                    Style="{StaticResource GreenButton}"
+                    IsEnabled="{Binding ElementName=check, Path=IsChecked}" 
+                    ToolTip="{x:Static res:Resource.DeleteSomeButtonTool}"
+                    Command="{Binding DeleteItemsCommand,UpdateSourceTrigger=PropertyChanged}"
+                    >
+                <Image Source="/Resources/imgs/delgreen.png"></Image>
+            </Button>
+            <Button Grid.Column="7"
+                    x:Name="saveBtn"
+                    Style="{StaticResource WarningButton}"
+                    ToolTip="{x:Static res:Resource.SaveChangesTool}" 
+                    Command="{Binding SaveChangesCommand,UpdateSourceTrigger=PropertyChanged}" 
+                    >
+                <Image Source="/Resources/imgs/save.png"></Image>
+            </Button>
+        </Grid>
+        <Grid DockPanel.Dock="Top" Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Label
+                Style="{StaticResource BrounDark}"
+                HorizontalAlignment="Right"
+                Content="{x:Static res:Resource.SearchResultLabel}"
+                IsEnabled="{Binding ElementName=searchResult, Path=HasContent}"></Label>
+            <Label Grid.Column="1"
+                   x:Name="searchResult"
+                   Style="{StaticResource BrounDark}"
+                   HorizontalContentAlignment="Left"
+                   Content="{Binding SearchRes}"></Label>
+            <Label
+                Grid.ColumnSpan="2"
+                Style="{StaticResource BrounDark}"
+                Content="{x:Static res:Resource.MultiselectLabel}"
+                IsEnabled="{Binding ElementName=check, Path=IsChecked}">
+            </Label>
+            <Label Grid.ColumnSpan="2"
+                   Style="{StaticResource BrounDark}"
+                   HorizontalAlignment="Right"
+                   Content="{x:Static res:Resource.SaveChangesLabel}"
+                   IsEnabled="{Binding ElementName=saveBtn, Path=IsEnabled, Converter={StaticResource reverseCVN}}"></Label>
+        </Grid>
+        <ListView Style="{DynamicResource ListViewStyle1}"
+                x:Name="list"
+                Background="Transparent"
+                Grid.Row="1"
+                ItemsSource="{Binding ViewedBooks, UpdateSourceTrigger=PropertyChanged}"
+                Grid.ColumnSpan="3"
+                BorderThickness="0"
+                SelectionMode="Single"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ItemContainerStyle="{StaticResource VerticalView}"
+                >
+            <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+    </DockPanel>
+</UserControl>
